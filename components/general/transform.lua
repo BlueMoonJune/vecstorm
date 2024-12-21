@@ -31,18 +31,24 @@ function c:__index(key)
     self._rebuild = false
     return self._matrix
   end
-  print(self)
   return rawget(self, "_"..key)
 end
 
 function c:draw()
   love.graphics.push()
-  love.graphics.applyTransform(self._matrix)
+  love.graphics.applyTransform(self.matrix)
 end
 function c:postDraw()
   love.graphics.pop()
 end
 
+function c:update()
+  love.graphics.push()
+  love.graphics.applyTransform(self.matrix)
+end
+function c:postUpdate()
+  love.graphics.pop()
+end
 
-print(c)
+
 return component(c)

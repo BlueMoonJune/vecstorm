@@ -30,7 +30,6 @@ function linepoly(...)
   end
 end
 
-
 function love.draw()
   local spin = player.spin % (2 * math.pi / 3)
   for i = 0, 1 do

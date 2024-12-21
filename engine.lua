@@ -61,7 +61,6 @@ local entityMeta = {
     getComponent = function(self, source)
 			for i, v in ipairs(self.components) do
 				if v.name == source then
-          print(v, getmetatable(v))
           return v, i
 				end
 			end
@@ -93,7 +92,9 @@ function component(props)
   for k, v in pairs(props) do
     if k:sub(1, 2) == "__" then
       if k == "__index" then
-        setmetatable(props, {__index = v})
+        function mt:__index(key)
+          return props[key] or v(self, key)
+        end
       else
         mt[k] = v
       end
@@ -133,9 +134,6 @@ end
 
 function love.update(dt)
   for _, entity in ipairs(entities) do
-    for k, v in ipairs(entity.components) do
-      print(v.name, v, getmetatable(v))
-    end
     entity:update(dt)
     entity:postUpdate(dt)
   end
